@@ -1,6 +1,8 @@
-from django.shortcuts import render,redirect
-from .models import *
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import permission_required
+from .models import Quiz, Question, Answer
 # Create your views here.
+
 
 def getQuestion_answers(ID):
 	quiz = Quiz.objects.get(pk=ID)
@@ -12,12 +14,15 @@ def getQuestion_answers(ID):
 		question_answers[question] = q_answers
 	return question_answers
 
+
 def showQuiz(request,ID):
 	quiz = Quiz.objects.get(pk=ID)
 	question_answers = getQuestion_answers(ID)
 	context = {"quiz":quiz,"question_answers":question_answers}
 	return render(request,"showQuiz.html",context)
 
+
+@permission_required('quiz.can_create_new_quizz')
 def submitQuiz(request,ID):
 	quiz = Quiz.objects.get(pk=ID)
 	if request.method == "POST":
@@ -37,11 +42,10 @@ def submitQuiz(request,ID):
 						current_question_correct_answers += 1
 				if user_correct_answers == current_question_correct_answers:
 					correctAnswers += 1
-				
+
 
 		allQuestions = len(question_answers)
 		context = {"correctAnswers":correctAnswers,"allQuestions":allQuestions}
 		return render(request,"submitQuiz.html",context)
 	else:
 		return redirect("/quiz/{}".format(ID))
-
