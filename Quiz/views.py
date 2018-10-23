@@ -18,7 +18,7 @@ def getQuestion_answers(ID):
     for question in questions:
         q_answers = Answer.objects.filter(question=question)
         question_answers[question] = q_answers
-        return question_answers
+    return question_answers
 
 
 def showQuiz(request, ID):
