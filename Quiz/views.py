@@ -1,6 +1,13 @@
 from django.shortcuts import render, redirect
+from rest_framework import viewsets
+from .serializers import QuizSerializer
 from .models import Quiz, Answer, Question
 # Create your views here.
+
+
+class QuizViewSet(viewsets.ModelViewSet):
+    queryset = Quiz.objects.all()
+    serializer_class = QuizSerializer
 
 
 def getQuestion_answers(ID):
