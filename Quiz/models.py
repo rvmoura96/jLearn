@@ -41,6 +41,5 @@ class Answer(models.Model):
     answer = models.TextField(max_length=1000)
     correct = models.CharField(max_length=5, choices=(("0","Not correct"),
                                                       ("1","Correct")))
-
-	def __str__(self):
-		return ("#{}#{} - {}".format(self.question.id,self.id,self.answer))
+    def __str__(self):
+        return ("#{}#{} - {}".format(self.question.id,self.id,self.answer))
